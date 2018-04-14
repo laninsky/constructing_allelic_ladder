@@ -42,3 +42,4 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
      cat(paste("Locus ",i,sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
      write.table(total_allele_list[[i]],"allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,col.names=FALSE)
     }
+    cat("\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
