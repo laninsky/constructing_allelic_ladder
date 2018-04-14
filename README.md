@@ -12,3 +12,7 @@ e.g.
 ```
 
 ```
+To run the Rscript, paste it into your R console and then execute by:
+```
+allelic_ladder(working_dir,tabdelim_file,allelic_lader_samples)
+```
