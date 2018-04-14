@@ -10,5 +10,7 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
  allele_list <- NULL
  
  for (i in seq(2,(dim(genotypes)[2]),2)) {
-  
+  tempallele <- rbind(matrix(genotypes[,i],ncol=1),matrix(genotypes[,(i+1)],ncol=1))
+  uniquetempallele <- unique(tempallele)
+  uniquetempallele <- uniquetempallele[(which(uniquetempallele[,1]!=0)),1]
   
