@@ -25,29 +25,36 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
     ref_allele_counts[j] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),i:(i+1)]==allele[j])
    }
    total_allele_list[[i/2]] <- rbind(allele,allele_counts, ref_allele_counts)
+ }
+ 
+ # Going to pare down our reference samples, trying to give priority to the smallest and largest alleles for each locus, and reasonably even representation across the range
+ # The first run through is removing samples that do not have a unique allele for any loci
+ while (k > 1) { 
+  # Printing out the ref samples and alleles they represent
+  cat(paste("Using ",k," ref samples (",paste(ladder[,1],collapse=","),"), the following alleles are represented:",sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+  for (i in 1:length(total_allele_list)) {
+    cat(paste("Locus ",i,sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+    write.table(total_allele_list[[i]],"allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,col.names=FALSE)
+  }
+  cat("\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+  
+  # Recording how many ref samples were in the previous iteration
+  old_num_samples <- dim(ladder)[1]    
+  i <- 1
+    # Need to do a while loop, because dimensions of ladder will change if samples removed 
+  while (i <= dim(ladder)[1]) {
+   for (j in 1:length(total_allele_list)) {
+    protected_alleles <- total_allele_list[[j]][1,(which(total_allele_list[[j]][3,]<=1))]
+    if (any(genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2):((j*2)+1)] %in% protected_alleles)) {
+      i <- i + 1
+      break
+    }  
    }
-
-for (i in 1:length(total_allele_list)) {
-    for (j in 1:(dim(total_allele_list[[i]])[2])) {
-    total_allele_list[[i]][3,j] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(i*2):((i*2)+1)]==total_allele_list[[i]][1,j])
-   }
-} 
- 
- 
- 
-  while (k > 1) { 
-    
-    cat(paste("Using ",k," ref samples (",paste(ladder[,1],collapse=","),"), the following alleles are represented:",sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
-    for (i in 1:length(total_allele_list)) {
-     cat(paste("Locus ",i,sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
-     write.table(total_allele_list[[i]],"allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,col.names=FALSE)
+   # Recalculating total_allele_list
+   for (a in 1:length(total_allele_list)) {
+    for (m in 1:(dim(total_allele_list[[a]])[2])) {
+     total_allele_list[[a]][3,m] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(a*2):((a*2)+1)]==total_allele_list[[a]][1,m])
     }
-    cat("\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
-   
-    old_num_samples <- dim(ladder)[1]
-    del_position <- NULL 
-    
-    i <- 1
-    while (i <= dim(ladder)[1]) {
-     for (j in 1:length(total_allele_list)) {
-       protected_alleles
+   } 
+   ladder <- matrix(ladder[-i,],ncol=1) 
+  }
