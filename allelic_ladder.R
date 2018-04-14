@@ -40,26 +40,31 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
   
   # Recording how many ref samples were in the previous iteration
   old_num_samples <- dim(ladder)[1]    
+  
   i <- 1
     # Need to do a while loop, because dimensions of ladder will change if samples removed 
   while (i <= dim(ladder)[1]) {
+   savethissample <- "NO"
    for (j in 1:length(total_allele_list)) {
     protected_alleles <- total_allele_list[[j]][1,(which(total_allele_list[[j]][3,]<=1))]
     if (any(genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2):((j*2)+1)] %in% protected_alleles)) {
-      i <- i + 1
-      break
+      savethissample <- "YES"      
     }  
    }
-   old_allele_list <- total_allele_list
-   # Recalculating total_allele_list
-   for (a in 1:length(total_allele_list)) {
-    for (m in 1:(dim(total_allele_list[[a]])[2])) {
-     total_allele_list[[a]][3,m] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(a*2):((a*2)+1)]==total_allele_list[[a]][1,m])
-     if (old_allele_list[[a]][3,m]>0 & total_allele_list[[a]][3,m]==0) {
-      stop("Let's double check this shiz")
+   if (savethissample=="YES") {
+    i <- i + 1
+   } else { 
+    # Recalculating total_allele_list
+    print(paste("Removing",ladder[i]))
+    ladder <- matrix(ladder[-i,],ncol=1)
+    k <- dim(ladder)[1]
+
+    for (a in 1:length(total_allele_list)) {
+     for (m in 1:(dim(total_allele_list[[a]])[2])) {
+      total_allele_list[[a]][3,m] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(a*2):((a*2)+1)]==total_allele_list[[a]][1,m])
      } 
     }
-   } 
-   ladder <- matrix(ladder[-i,],ncol=1)
-   k <- dim(ladder)[1]
+   }
   }
+  #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
+}
