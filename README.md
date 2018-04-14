@@ -1,0 +1,14 @@
+# constructing_allelic_ladder
+Given a list of samples that can be used to construct the allelic ladder, this script will give a selection of samples that cover alleles found in the greater population 
+
+Two files are needed:
+
+-- A tab-delimited file with sample names in the first column, followed by two columns (A and B) for each genotyped locus
+e.g.
+```
+
+```
+-- A text file with the samples availables to act as an allelic ladder, each sample on a new name. The names should be identical to how they appear in the original tab-delimited file with all the genotypes e.g.
+```
+
+```
