@@ -7,10 +7,28 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
  setwd(working_dir)
  genotypes <- read.table(tabdelim_file,header=FALSE,stringsAsFactors=FALSE,sep="\t")
  ladder <- read.table(allelic_ladder_samples,header=FALSE,stringsAsFactors=FALSE,sep="\t")
- allele_list <- NULL
+ total_allele_list <- vector("list", (dim(genotypes)[2]-1)/2)
  
- for (i in seq(2,(dim(genotypes)[2]),2)) {
+  i <- 2
   tempallele <- rbind(matrix(genotypes[,i],ncol=1),matrix(genotypes[,(i+1)],ncol=1))
-  uniquetempallele <- unique(tempallele)
-  uniquetempallele <- uniquetempallele[(which(uniquetempallele[,1]!=0)),1]
+  allele <- unique(tempallele)
+  allele <- allele[(which(allele[,1]!=0)),1]
+  allele <- sort(allele)
+  allele_counts <- rep(NA,length(allele))
+  for (j in 1:length(allele_counts)) {
+   allele_counts[j] <- sum(genotypes[,i:(i+1)]==allele[j])
+  }
+  total_allele_list[[i/2]] <- rbind(allele,allele_counts)
   
+  for (i in seq(4,((dim(genotypes)[2])-1),2)) {
+   tempallele <- rbind(matrix(genotypes[,i],ncol=1),matrix(genotypes[,(i+1)],ncol=1))
+   allele <- unique(tempallele)
+   allele <- allele[(which(allele[,1]!=0)),1]
+   allele <- sort(allele)
+   allele_counts <- rep(NA,length(allele))
+   for (j in 1:length(allele_counts)) {
+    allele_counts[j] <- sum(genotypes[,i:(i+1)]==allele[j])
+   }
+   total_allele_list[[i/2]] <- rbind(allele,allele_counts)
+  }
+ 
