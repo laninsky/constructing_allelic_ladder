@@ -37,7 +37,8 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
     total_allele_list[[i/2]] <- rbind(allele,allele_counts, ref_allele_counts)
     }
     
-    file <- file("allelic_ladder_by_number_of_ref_samples.txt")
-    writeLines(paste("Using ",k," ref samples (",paste(ladder[,1],collapse=","),"), the following alleles are represented:",sep=""))
-    writeLines(total_allele_list, file)
-    close(file)
+    cat(paste("Using ",k," ref samples (",paste(ladder[,1],collapse=","),"), the following alleles are represented:",sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+    for (i in 1:length(total_allele_list)) {
+     cat(paste("Locus ",i,sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+     write.table(total_allele_list[[i]],"allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,col.names=FALSE)
+    }
