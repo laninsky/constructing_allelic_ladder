@@ -50,11 +50,16 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
       break
     }  
    }
+   old_allele_list <- total_allele_list
    # Recalculating total_allele_list
    for (a in 1:length(total_allele_list)) {
     for (m in 1:(dim(total_allele_list[[a]])[2])) {
      total_allele_list[[a]][3,m] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(a*2):((a*2)+1)]==total_allele_list[[a]][1,m])
+     if (old_allele_list[[a]][3,m]>0 & total_allele_list[[a]][3,m]==0) {
+      stop("Let's double check this shiz")
+     } 
     }
    } 
-   ladder <- matrix(ladder[-i,],ncol=1) 
+   ladder <- matrix(ladder[-i,],ncol=1)
+   k <- dim(ladder)[1]
   }
