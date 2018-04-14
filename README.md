@@ -14,6 +14,6 @@ e.g.
 ```
 To run the Rscript, paste it into your R console and then execute by:
 ```
-allelic_ladder(working_dir,tabdelim_file,allelic_lader_samples)
+allelic_ladder(working_dir,tabdelim_file,allelic_ladder_samples)
 # e.g. allelic_ladder("C:/Users/Alana/Downloads","Sperm_whale_DNA_profile_sample_name_loci.txt","NZsamplenames.txt")
 ```
