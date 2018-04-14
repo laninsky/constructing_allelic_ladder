@@ -3,7 +3,7 @@ Given a list of samples that can be used to construct the allelic ladder, this s
 
 Two files are needed:
 
--- A tab-delimited file with sample names in the first column, followed by two columns (A and B) for each genotyped locus
+-- A tab-delimited file with sample names in the first column, followed by two columns (allele A and B) for each genotyped locus. There should be no column headers.
 e.g.
 ```
 
@@ -15,4 +15,5 @@ e.g.
 To run the Rscript, paste it into your R console and then execute by:
 ```
 allelic_ladder(working_dir,tabdelim_file,allelic_lader_samples)
+# e.g. allelic_ladder("C:/Users/Alana/Downloads","Sperm_whale_DNA_profile_sample_name_loci.txt","NZsamplenames.txt")
 ```
