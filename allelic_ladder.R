@@ -100,12 +100,12 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
      for (m in 1:(dim(total_allele_list[[a]])[2])) {
       total_allele_list[[a]][3,m] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(a*2):((a*2)+1)]==total_allele_list[[a]][1,m])
       if (old_total_allele_list[[a]][3,m] > 0 & total_allele_list[[a]][3,m]==0) {
-       print(a)
-       print(m)
-       print("oooooh")
-     } 
-    }
-  }
+        cat(paste("Locus ",a,sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+        cat(paste("Allele ",old_total_allele_list[[a]][1,m],sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+        cat(paste("With a global frequency of ",old_total_allele_list[[a]][2,m]/sum(old_total_allele_list[[a]][2,])," has been removed from the allelic ladder with removal of this sample",sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+      }     
+     }
+   }
   
   #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
 
