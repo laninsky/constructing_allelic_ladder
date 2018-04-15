@@ -93,7 +93,14 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
      }  
     }        
    }
-   which(sample_specific_weight==min(sample_specific_weight))
+   cat(paste("Removing following sample: ",ladder[(which(sample_specific_weight==min(sample_specific_weight))),1],sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
+   ladder <-  matrix(ladder[-(which(sample_specific_weight==min(sample_specific_weight))),],ncol=1)
+   old_total_allele_list <- total_allele_list
+   for (a in 1:length(total_allele_list)) {
+     for (m in 1:(dim(total_allele_list[[a]])[2])) {
+      total_allele_list[[a]][3,m] <- sum(genotypes[(which(genotypes[,1] %in% ladder[,1])),(a*2):((a*2)+1)]==total_allele_list[[a]][1,m])
+     } 
+    }
   }
   
   #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
