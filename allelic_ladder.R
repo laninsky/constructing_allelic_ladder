@@ -42,7 +42,7 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
   old_num_samples <- dim(ladder)[1]    
   
   i <- 1
-    # Need to do a while loop, because dimensions of ladder will change if samples removed 
+  # Need to do a while loop, because dimensions of ladder will change if samples removed 
   while (i <= dim(ladder)[1]) {
    savethissample <- "NO"
    for (j in 1:length(total_allele_list)) {
@@ -66,5 +66,12 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
     }
    }
   }
+  if ( old_num_samples==dim(ladder)[1] ) {
+   for (j in 1:length(total_allele_list)) {
+    ref_only_allele
+    protected_alleles <- total_allele_list[[j]][1,(which(total_allele_list[[j]][3,]<=1))]
+   
+   for ( i in 1:(dim(ladder)[1]
   #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
+  } 
 }
