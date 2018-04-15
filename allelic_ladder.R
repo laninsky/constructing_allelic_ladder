@@ -67,7 +67,7 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
    }
   }
   if ( old_num_samples==dim(ladder)[1] ) {
-   sample_specific_weight <- rep(NULL,dim(ladder)[1])
+   sample_specific_weight <- rep(0,dim(ladder)[1])
    protected_alleles <- vector("list", length(total_allele_list))
    for (j in 1:length(total_allele_list)) {
     ref_only_allele <-  total_allele_list[[j]][1,(which(total_allele_list[[j]][3,]>=1))]
@@ -78,19 +78,25 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
       if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] %in% protected_alleles) {
        sample_specific_weight[i] <- sample_specific_weight[i]+2
       } else {
-       sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]))]/sum(total_allele_list[[j]][2,])
+       if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]!=0 ) {
+        sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]))]/sum(total_allele_list[[j]][2,])
+       }
       }
       if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] != genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]) {
        if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)] %in% protected_alleles) {
         sample_specific_weight[i] <- sample_specific_weight[i]+2
        } else {
+       if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]!=0 ) {
         sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]))]/sum(total_allele_list[[j]][2,])
        }
       }
      }  
-   }    
-    
-   #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
-   } 
+    }        
+   }
+   which(sample_specific_weight==min(sample_specific_weight))
+  }
+  
+  #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
+
   } 
 }
