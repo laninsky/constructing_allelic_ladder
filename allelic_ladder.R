@@ -106,6 +106,7 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
       }     
      }
    }
+   k <- dim(ladder)[1]
   } #1B
  } #while loop
 } #formula
