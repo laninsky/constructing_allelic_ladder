@@ -66,33 +66,33 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
     }
    }
   }
-  if ( old_num_samples==dim(ladder)[1] ) {
+  if ( old_num_samples==dim(ladder)[1] ) { #1A
    sample_specific_weight <- rep(0,dim(ladder)[1])
    protected_alleles <- vector("list", length(total_allele_list))
-   for (j in 1:length(total_allele_list)) {
+   for (j in 1:length(total_allele_list)) { #2A
     ref_only_allele <-  total_allele_list[[j]][1,(which(total_allele_list[[j]][3,]>=1))]
     protected_alleles[[j]] <- c(ref_only_allele[1],ref_only_allele[(length(ref_only_allele))])
    }    
-   for ( i in 1:(dim(ladder)[1])) {
-     for (j in 1:length(total_allele_list)) {
-      if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] %in% protected_alleles) {
+   for ( i in 1:(dim(ladder)[1])) { #3A
+     for (j in 1:length(total_allele_list)) { #4A
+      if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] %in% protected_alleles) { #5A
        sample_specific_weight[i] <- sample_specific_weight[i]+2
-      } else {
-       if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]!=0 ) {
+      } else { #5AB
+       if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]!=0 ) { #6A
         sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]))]/sum(total_allele_list[[j]][2,])
-       }
-      }
-      if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] != genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]) {
-       if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)] %in% protected_alleles) {
+       } #6B
+      } #5B
+      if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] != genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]) { #7A
+       if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)] %in% protected_alleles) { #8A
         sample_specific_weight[i] <- sample_specific_weight[i]+2
-       } else {
-       if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]!=0 ) {
-        sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]))]/sum(total_allele_list[[j]][2,])
-       }
-      }
-     }  
-    }        
-   }
+       } else { #8AB
+        if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]!=0 ) { #9A
+         sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]))]/sum(total_allele_list[[j]][2,])
+        } #9B
+       } #8B
+      } #7B  
+     } #4B        
+   } #3B
    cat(paste("Removing following sample: ",ladder[(which(sample_specific_weight==min(sample_specific_weight))),1],sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
    ladder <-  matrix(ladder[-(which(sample_specific_weight==min(sample_specific_weight))),],ncol=1)
    old_total_allele_list <- total_allele_list
@@ -106,8 +106,6 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
       }     
      }
    }
-  
-  #next big of code if old_num_samples == dim(ladder)[1] - need to explicitly print which alleles etc are lost
-
-  } 
-}
+  } #1B
+ } #while loop
+} #formula
