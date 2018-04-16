@@ -97,7 +97,13 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples,end_
      } #4B        
    } #3B
    cat(paste("Removing following sample: ",ladder[(which(sample_specific_weight==min(sample_specific_weight))),1],sep=""),"\n",file="allelic_ladder_by_number_of_ref_samples.txt",append=TRUE,sep='')
-   ladder <-  matrix(ladder[-(which(sample_specific_weight==min(sample_specific_weight))),],ncol=1)
+   if (k == 2) {
+    if (sample_specific_weight[1] == sample_specific_weight[2]) {
+     ladder <-  matrix(ladder[-1,],ncol=1)
+    } else { 
+     ladder <-  matrix(ladder[-(which(sample_specific_weight==min(sample_specific_weight))),],ncol=1)
+    }
+   } 
    old_total_allele_list <- total_allele_list
    for (a in 1:length(total_allele_list)) {
      for (m in 1:(dim(total_allele_list[[a]])[2])) {
