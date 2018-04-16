@@ -103,6 +103,8 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples,end_
     } else { 
      ladder <-  matrix(ladder[-(which(sample_specific_weight==min(sample_specific_weight))),],ncol=1)
     }
+   } else {
+    ladder <-  matrix(ladder[-(which(sample_specific_weight==min(sample_specific_weight))),],ncol=1)
    } 
    old_total_allele_list <- total_allele_list
    for (a in 1:length(total_allele_list)) {
