@@ -1,9 +1,5 @@
-working_dir <- "C:/Users/Alana/Downloads"
-tabdelim_file <- "Sperm_whale_DNA_profile_sample_name_loci.txt"
-allelic_ladder_samples <- "NZsamplenames.txt"
-
-
-allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
+allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples,end_allele_weight) {
+ #e.g. allelic_ladder("Dropbox","Spermwhale_global_genotypes.txt","NZsamples.txt",5)
  # Setting directory and reading in files
  setwd(working_dir)
  genotypes <- read.table(tabdelim_file,header=FALSE,stringsAsFactors=FALSE,sep="\t")
@@ -76,7 +72,7 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
    for ( i in 1:(dim(ladder)[1])) { #3A
      for (j in 1:length(total_allele_list)) { #4A
       if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] %in% protected_alleles) { #5A
-       sample_specific_weight[i] <- sample_specific_weight[i]+2
+       sample_specific_weight[i] <- sample_specific_weight[i]+end_allele_weight
       } else { #5AB
        if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]!=0 ) { #6A
         sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]))]/sum(total_allele_list[[j]][2,])
@@ -84,7 +80,7 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples) {
       } #5B
       if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] != genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]) { #7A
        if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)] %in% protected_alleles) { #8A
-        sample_specific_weight[i] <- sample_specific_weight[i]+2
+        sample_specific_weight[i] <- sample_specific_weight[i]+end_allele_weight
        } else { #8AB
         if ( genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]!=0 ) { #9A
          sample_specific_weight[i] <- sample_specific_weight[i]+total_allele_list[[j]][2,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]))]/sum(total_allele_list[[j]][2,])
