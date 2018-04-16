@@ -22,6 +22,7 @@ PmaNZ_U07-099
 ```
 To run the Rscript, paste it into your R console and then execute by:
 ```
-allelic_ladder(working_dir,tabdelim_file,allelic_ladder_samples)
+allelic_ladder(working_dir,tabdelim_file,allelic_ladder_samples, end_allele_weight)
 # e.g. allelic_ladder("C:/Users/Alana/Downloads","Sperm_whale_DNA_profile_sample_name_loci.txt","NZsamplenames.txt")
 ```
+where end_allele_weight reflects the weight to be placed on retaining the maxmimum and minimum (in size) alleles for each locus (remaining alleles are retained roughly in order of their frequency as the number of samples included in the allelic ladder is reduced). The higher this number, the more retaining the max and minimum sized allele for each locus will be prioritized.
