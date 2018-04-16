@@ -47,11 +47,18 @@ allelic_ladder <- function(working_dir,tabdelim_file,allelic_ladder_samples,end_
       savethissample <- "YES"      
     }  
    }
+   if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] == genotypes[(which(genotypes[,1] %in% ladder[i,1])),((j*2)+1)]) {
+    if (genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)] !=0 ) {
+     if(total_allele_list[[j]][3,(which(total_allele_list[[j]][1,]==genotypes[(which(genotypes[,1] %in% ladder[i,1])),(j*2)]))]==2) {
+      savethissample <- "YES" 
+     } 
+    }
+   } 
    if (savethissample=="YES") {
     i <- i + 1
    } else { 
     # Recalculating total_allele_list
-    print(paste("Removing",ladder[i]))
+    print(paste("Removing",ladder[i,1]))
     ladder <- matrix(ladder[-i,],ncol=1)
     k <- dim(ladder)[1]
 
