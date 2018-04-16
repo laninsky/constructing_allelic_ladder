@@ -26,3 +26,5 @@ allelic_ladder(working_dir,tabdelim_file,allelic_ladder_samples, end_allele_weig
 # e.g. allelic_ladder("C:/Users/Alana/Downloads","Sperm_whale_DNA_profile_sample_name_loci.txt","NZsamplenames.txt")
 ```
 where end_allele_weight reflects the weight to be placed on retaining the maxmimum and minimum (in size) alleles for each locus (remaining alleles are retained roughly in order of their frequency as the number of samples included in the allelic ladder is reduced). The higher this number, the more retaining the max and minimum sized allele for each locus will be prioritized.
+
+You can also run this on a locus by locus basis by deleting the columns that do not pertain to your locus of interest. This could be useful if you are planning on sending amplicons for between lab standardization rather than whole DNA.
