@@ -28,3 +28,6 @@ allelic_ladder(working_dir,tabdelim_file,allelic_ladder_samples, end_allele_weig
 where end_allele_weight reflects the weight to be placed on retaining the maxmimum and minimum (in size) alleles for each locus (remaining alleles are retained roughly in order of their frequency as the number of samples included in the allelic ladder is reduced). The higher this number, the more retaining the max and minimum sized allele for each locus will be prioritized.
 
 You can also run this on a locus by locus basis by deleting the columns that do not pertain to your locus of interest. This could be useful if you are planning on sending amplicons for between lab standardization rather than whole DNA.
+
+# Version history
+Wrote this code to faciliate a collaboration between labs needing to establish a common allelic ladder. I am no longer actively maintaining this repository, but will respond to issues.
